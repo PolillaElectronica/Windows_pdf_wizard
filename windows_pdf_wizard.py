@@ -96,6 +96,17 @@ def main():
                 print(f"{Style.CYAN}🔄 Reintentando solo con inglés...{Style.RESET}")
                 # Intento 2: Solo Inglés (evita el error que viste en la imagen)
                 ocrmypdf.ocr(file_in, file_out, language="eng", deskew=True, force_ocr=True, progress_bar=True)
+                ocrmypdf.ocr(
+                    file_in, 
+                    file_out, 
+                    language="spa+eng", 
+                    deskew=True,         # Endereza el texto si está algo torcido [cite: 1]
+                    clean=True,          # Elimina "ruido" y manchas del fondo
+                    rotate_pages=True,   # Corrige la orientación automáticamente
+                    force_ocr=True,      # Obliga a procesar todas las capas de imagen [cite: 1]
+                    optimize=1,          # Comprime el archivo resultante sin perder calidad
+                    sidecar="output.txt" # Opcional: genera un txt con todo el texto extraído
+                   )
             else:
                 raise e
 
