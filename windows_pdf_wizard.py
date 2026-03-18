@@ -96,7 +96,9 @@ def main():
                 deskew=True, 
                 force_ocr=True, 
                 optimize=1,          # Optimiza el PDF resultante
-                oversample=300,      # Aumenta la resolución para leer mejor textos en fondos oscuros
+                oversample=1200,      # Aumenta la resolución para leer mejor textos en fondos oscuros
+                tesseract_pagesegmode=11,
+                tesseract_oem=1,
                 progress_bar=True
             )
         except Exception as e:
@@ -112,7 +114,9 @@ def main():
                     deskew=True,         
                     force_ocr=True,      
                     optimize=1,          
-                    oversample=300,      # También aumentamos resolución aquí
+                    oversample=1200,      # También aumentamos resolución aquí
+                    tesseract_pagesegmode=11,
+                    tesseract_oem=1,
                     progress_bar=True
                 )
             else:
