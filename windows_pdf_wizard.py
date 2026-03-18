@@ -86,14 +86,26 @@ def main():
         file_out = f"BUSCABLE_{file_in}"
         
         print(f"{Style.CYAN}⏳ Procesando OCR... Por favor, espera.{Style.RESET}")
-        ocrmypdf.ocr(file_in, file_out, language="spa+eng", deskew=True, force_ocr=True, progress_bar=True)
+        
+        try:
+            # Intento 1: Español + Inglés
+            ocrmypdf.ocr(file_in, file_out, language="spa+eng", deskew=True, force_ocr=True, progress_bar=True)
+        except Exception as e:
+            if "spa" in str(e):
+                print(f"{Style.YELLOW}⚠️  Idioma español no instalado en Tesseract.{Style.RESET}")
+                print(f"{Style.CYAN}🔄 Reintentando solo con inglés...{Style.RESET}")
+                # Intento 2: Solo Inglés (evita el error que viste en la imagen)
+                ocrmypdf.ocr(file_in, file_out, language="eng", deskew=True, force_ocr=True, progress_bar=True)
+            else:
+                raise e
+
         print(f"\n{Style.GREEN}✅ ¡LISTO! Archivo creado: {file_out}{Style.RESET}")
         
     except Exception as e:
-        print(f"{Style.RED}⚠ Error: {e}{Style.RESET}")
+        print(f"\n{Style.RED}⚠ Error crítico: {e}{Style.RESET}")
     
     input(f"\n{Style.YELLOW}Presiona Enter para cerrar...{Style.RESET}")
-
+    
 if __name__ == "__main__":
     # Importante: Primero el venv, luego el setup de Windows
     setup_venv()
