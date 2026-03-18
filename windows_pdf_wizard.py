@@ -89,26 +89,35 @@ def main():
         
         try:
             # Intento 1: Español + Inglés
-            ocrmypdf.ocr(file_in, file_out, language="spa+eng", deskew=True, force_ocr=True, progress_bar=True)
+            ocrmypdf.ocr(
+                file_in, 
+                file_out, 
+                language="spa+eng", 
+                deskew=True, 
+                force_ocr=True, 
+                optimize=1,          # Optimiza el PDF resultante
+                oversample=300,      # Aumenta la resolución para leer mejor textos en fondos oscuros
+                progress_bar=True
+            )
         except Exception as e:
             if "spa" in str(e):
-                print(f"{Style.YELLOW}⚠️  Idioma español no instalado en Tesseract.{Style.RESET}")
+                print(f"{Style.YELLOW}⚠️ Idioma español no instalado en Tesseract.{Style.RESET}")
                 print(f"{Style.CYAN}🔄 Reintentando solo con inglés...{Style.RESET}")
-                # Intento 2: Solo Inglés (evita el error que viste en la imagen)
+                
+                # Intento 2: Solo Inglés (Si falla el español)
                 ocrmypdf.ocr(
-                    file_in, 
-                    file_out, 
-                    language="spa+eng", 
-                    deskew=True,         # Endereza el texto si está algo torcido [cite: 1]
-                    clean=True,          # Elimina "ruido" y manchas del fondo
-                    rotate_pages=True,   # Corrige la orientación automáticamente
-                    force_ocr=True,      # Obliga a procesar todas las capas de imagen [cite: 1]
-                    optimize=1,          # Comprime el archivo resultante sin perder calidad
-                    sidecar="output.txt" # Opcional: genera un txt con todo el texto extraído
-                   )
+                    file_in,
+                    file_out,
+                    language="eng",      # <-- Solo inglés
+                    deskew=True,         
+                    force_ocr=True,      
+                    optimize=1,          
+                    oversample=300,      # También aumentamos resolución aquí
+                    progress_bar=True
+                )
             else:
                 raise e
-
+         
         print(f"\n{Style.GREEN}✅ ¡LISTO! Archivo creado: {file_out}{Style.RESET}")
         
     except Exception as e:
