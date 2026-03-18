@@ -95,7 +95,6 @@ def main():
                 print(f"{Style.YELLOW}⚠️  Idioma español no instalado en Tesseract.{Style.RESET}")
                 print(f"{Style.CYAN}🔄 Reintentando solo con inglés...{Style.RESET}")
                 # Intento 2: Solo Inglés (evita el error que viste en la imagen)
-                ocrmypdf.ocr(file_in, file_out, language="eng", deskew=True, force_ocr=True, progress_bar=True)
                 ocrmypdf.ocr(
                     file_in, 
                     file_out, 
